@@ -25,7 +25,7 @@ buildscript {
 
 plugins {
     java
-    scala
+    //scala
 }
 
 apply {
