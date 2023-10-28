@@ -2,11 +2,12 @@ import net.minecraftforge.gradle.userdev.UserDevExtension
 import org.gradle.jvm.tasks.Jar
 
 // gradle.properties
-val modGroup: String by extra
-val modVersion: String by extra
-val modBaseName: String by extra
-val forgeVersion: String by extra
-val mappingVersion: String by extra
+val modGroup = "io.github.proudust"
+val modVersion = "1.12.2-1.0.0-beta"
+val modBaseName = "minecraft-forge-kotlin-template"
+val forgeVersion = "1.12.2-14.23.5.2860"
+val customMappingChannel = "snapshot"
+val customMappingVersion = "20171003-1.12"
 
 buildscript {
     repositories {
@@ -15,10 +16,10 @@ buildscript {
         maven(url = "https://oss.sonatype.org/content/repositories/snapshots")
     }
     dependencies {
-        classpath("net.minecraftforge.gradle:ForgeGradle:4.1.+") {
+        classpath("net.minecraftforge.gradle:ForgeGradle:4.+") {
             isChanging = true
         }
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.50")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10")
     }
 }
 
@@ -41,9 +42,9 @@ configure<UserDevExtension> {
     // stable_#            stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings("stable",  "39-1.12")
+    mappings(customMappingChannel, customMappingVersion)
     //mappings = mappingVersion
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+    // makeObfSourceJar = false // a Srg named sources jar is made by default. uncomment this to disable.
 
     accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
 
@@ -75,13 +76,13 @@ configure<UserDevExtension> {
 repositories {
     jcenter()
     mavenCentral()
-    maven(url = "http://maven.shadowfacts.net/")
+    maven(url = "https://maven.shadowfacts.net/")
 }
 
 dependencies {
-    "minecraft"("net.minecraftforge:forge:1.12.2-14.23.5.2855")
-    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.50")
-    compile("net.shadowfacts:Forgelin:1.8.4")
+    "minecraft"("net.minecraftforge:forge:$forgeVersion")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10")
+    implementation("net.shadowfacts:Forgelin:1.8.4")
 }
 
 // processResources
@@ -89,14 +90,14 @@ val Project.minecraft: UserDevExtension
     get() = extensions.getByName<UserDevExtension>("minecraft")
 tasks.withType<Jar> {
     // this will ensure that this task is redone when the versions change.
-    inputs.property("version", project.version)
+    inputs.property("version", modVersion)
 
-    baseName = modBaseName
+    archiveBaseName.set(modBaseName)
 
     // replace stuff in mcmod.info, nothing else
     filesMatching("/mcmod.info") {
         expand(mapOf(
-            "version" to project.version,
+            "version" to modVersion,
             "mcversion" to "1.12.2"
         ))
     }
