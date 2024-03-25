@@ -8,6 +8,8 @@ val modBaseName = "minecraft-forge-kotlin-template"
 val forgeVersion = "1.12.2-14.23.5.2860"
 val customMappingChannel = "snapshot"
 val customMappingVersion = "20171003-1.12"
+val kotlinVersion = "1.9.10"
+val forgelinVersion = "1.8.4"
 
 buildscript {
     repositories {
@@ -19,7 +21,7 @@ buildscript {
         classpath("net.minecraftforge.gradle:ForgeGradle:4.+") {
             isChanging = true
         }
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     }
 }
 
@@ -81,8 +83,8 @@ repositories {
 
 dependencies {
     "minecraft"("net.minecraftforge:forge:$forgeVersion")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10")
-    implementation("net.shadowfacts:Forgelin:1.8.4")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+    implementation("net.shadowfacts:Forgelin:$forgelinVersion")
 }
 
 // processResources
